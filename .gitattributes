@@ -1,0 +1,5 @@
+# 统一使用 LF，避免 Windows/Cloudflare 构建差异
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary

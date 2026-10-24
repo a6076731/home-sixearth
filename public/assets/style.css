@@ -1,0 +1,203 @@
+:root{
+  --fg: #ffffff;
+  --fg-dim: rgba(255,255,255,.74);
+  --fg-mute: rgba(255,255,255,.56);
+  --line: rgba(255,255,255,.20);
+  --panel: rgba(255,255,255,.07);
+  --panel-hover: rgba(255,255,255,.15);
+  --pad: clamp(20px, 4.2vw, 54px);
+}
+
+*{ box-sizing: border-box; }
+
+html, body{ height: 100%; }
+
+body{
+  margin: 0;
+  color: var(--fg);
+  background: #0a0a0c;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+               "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+}
+
+/* ---------- 背景 ---------- */
+.stage{
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: radial-gradient(130% 85% at 50% 0%, #1d2431 0%, #0a0a0c 62%);
+}
+
+.bg{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 1;
+  transition: opacity .9s ease, transform 8s linear;
+  will-change: opacity;
+  transform: scale(1.02);
+}
+
+.bg.is-loading{ opacity: 0; }
+
+.scrim{
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0,0,0,.58) 0%,
+    rgba(0,0,0,.14) 26%,
+    rgba(0,0,0,.06) 58%,
+    rgba(0,0,0,.42) 84%,
+    rgba(0,0,0,.76) 100%
+  );
+}
+
+/* ---------- 顶部 ---------- */
+.top{
+  position: fixed;
+  z-index: 2;
+  top: 0; left: 0; right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: max(var(--pad), env(safe-area-inset-top)) var(--pad) 0;
+  animation: rise .8s cubic-bezier(.2,.7,.2,1) both;
+}
+
+.brand{
+  color: var(--fg);
+  text-decoration: none;
+  font-size: clamp(11px, 1.1vw, 13px);
+  font-weight: 600;
+  letter-spacing: .34em;
+  text-shadow: 0 1px 12px rgba(0,0,0,.45);
+  white-space: nowrap;
+}
+
+.nav{
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--panel);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+.nav a{
+  display: block;
+  padding: 7px 16px;
+  border-radius: 999px;
+  color: var(--fg-dim);
+  text-decoration: none;
+  font-size: 13px;
+  letter-spacing: .06em;
+  transition: background .2s ease, color .2s ease;
+}
+
+.nav a:hover,
+.nav a:focus-visible{
+  background: var(--panel-hover);
+  color: var(--fg);
+}
+
+/* ---------- 底部 ---------- */
+.bottom{
+  position: fixed;
+  z-index: 2;
+  left: 0; right: 0; bottom: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 0 var(--pad) max(var(--pad), env(safe-area-inset-bottom));
+  animation: rise .8s .1s cubic-bezier(.2,.7,.2,1) both;
+}
+
+.info{ max-width: 62ch; }
+
+.date{
+  margin: 0 0 10px;
+  font-size: clamp(1.3rem, 2.9vw, 2.05rem);
+  font-weight: 600;
+  letter-spacing: .01em;
+  line-height: 1.2;
+  text-shadow: 0 2px 20px rgba(0,0,0,.5);
+}
+
+.caption{
+  margin: 0;
+  font-size: clamp(12px, 1.1vw, 13.5px);
+  line-height: 1.65;
+  color: var(--fg-mute);
+  text-shadow: 0 1px 10px rgba(0,0,0,.55);
+}
+
+/* ---------- 翻页 ---------- */
+.pager{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: none;
+}
+
+.btn{
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  padding: 0 0 3px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--panel);
+  color: var(--fg);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  transition: background .2s ease, border-color .2s ease, opacity .2s ease;
+}
+
+.btn:hover:not(:disabled){
+  background: var(--panel-hover);
+  border-color: rgba(255,255,255,.38);
+}
+
+.btn:disabled{ opacity: .28; cursor: default; }
+
+.pos{
+  min-width: 3.4em;
+  text-align: center;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  color: var(--fg-mute);
+  letter-spacing: .08em;
+}
+
+@keyframes rise{
+  from{ opacity: 0; transform: translateY(10px); }
+  to{ opacity: 1; transform: none; }
+}
+
+/* ---------- 手机 ---------- */
+@media (max-width: 640px){
+  .bottom{
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+  }
+  .date{ margin-bottom: 8px; }
+  .nav a{ padding: 6px 14px; font-size: 12.5px; }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .bg, .top, .bottom{ transition: none; animation: none; }
+}
