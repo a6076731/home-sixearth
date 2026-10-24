@@ -165,10 +165,10 @@ body{
 }
 
 .mail svg{
-  width: 14px;
-  height: 14px;
+  width: 12px;
+  height: 12px;
   flex: none;
-  opacity: .8;
+  opacity: .75;
 }
 
 .mail:hover,
