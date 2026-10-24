@@ -145,6 +145,39 @@ body{
   text-shadow: 0 1px 10px rgba(0,0,0,.55);
 }
 
+/* ---------- 来信 ---------- */
+.mail{
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 18px;
+  padding: 7px 15px 7px 13px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--panel);
+  color: var(--fg-dim);
+  text-decoration: none;
+  font-size: 12px;
+  letter-spacing: .05em;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  transition: background .2s ease, color .2s ease, border-color .2s ease;
+}
+
+.mail svg{
+  width: 14px;
+  height: 14px;
+  flex: none;
+  opacity: .8;
+}
+
+.mail:hover,
+.mail:focus-visible{
+  background: var(--panel-hover);
+  border-color: rgba(255,255,255,.38);
+  color: var(--fg);
+}
+
 /* ---------- 翻页 ---------- */
 .pager{
   display: flex;
