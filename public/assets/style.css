@@ -108,6 +108,11 @@ body{
   color: var(--fg);
 }
 
+.nav a.is-current{
+  background: var(--panel-hover);
+  color: var(--fg);
+}
+
 /* ---------- 底部 ---------- */
 .bottom{
   position: fixed;
