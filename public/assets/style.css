@@ -145,37 +145,19 @@ body{
   text-shadow: 0 1px 10px rgba(0,0,0,.55);
 }
 
-/* ---------- 来信 ---------- */
-.mail{
+/* ---------- 导航末尾的来信入口 ---------- */
+.nav a.nav-mail{
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  margin-top: 18px;
-  padding: 7px 15px 7px 13px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: var(--panel);
-  color: var(--fg-dim);
-  text-decoration: none;
-  font-size: 12px;
-  letter-spacing: .05em;
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-  transition: background .2s ease, color .2s ease, border-color .2s ease;
+  gap: 6px;
+  padding: 7px 14px 7px 12px;
 }
 
-.mail svg{
+.nav a.nav-mail svg{
   width: 12px;
   height: 12px;
   flex: none;
-  opacity: .75;
-}
-
-.mail:hover,
-.mail:focus-visible{
-  background: var(--panel-hover);
-  border-color: rgba(255,255,255,.38);
-  color: var(--fg);
+  opacity: .8;
 }
 
 /* ---------- 翻页 ---------- */
@@ -234,6 +216,9 @@ body{
   }
   .date{ margin-bottom: 8px; }
   .nav a{ padding: 6px 14px; font-size: 12.5px; }
+  /* 四个入口一行放不下，「来信」收成只剩信封图标 */
+  .nav a.nav-mail{ gap: 0; padding: 6px 10px; }
+  .nav-mail-label{ display: none; }
 }
 
 @media (prefers-reduced-motion: reduce){
