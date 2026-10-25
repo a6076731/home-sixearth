@@ -146,6 +146,30 @@ body{
   text-shadow: 0 2px 20px rgba(0,0,0,.5);
 }
 
+/* 北京时间实时时钟：日期下面单独一行，等宽数字避免每秒抖动 */
+.clock{
+  display: flex;
+  align-items: baseline;
+  gap: .5em;
+  margin-top: .08em;
+  font-size: .6em;
+  font-weight: 500;
+  text-shadow: 0 2px 18px rgba(0,0,0,.5);
+}
+
+.clock #clock{
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+  letter-spacing: .04em;
+}
+
+.clock .tz{
+  font-size: max(9.5px, .62em);
+  font-weight: 400;
+  letter-spacing: .14em;
+  color: var(--fg-mute);
+}
+
 .caption{
   margin: 0;
   font-size: clamp(12px, 1.1vw, 13.5px);
@@ -224,6 +248,8 @@ body{
     gap: 18px;
   }
   .date{ margin-bottom: 8px; }
+  /* 窄屏字号按比例放大一点，秒数才看得清 */
+  .clock{ font-size: .74em; }
   .nav a{ padding: 6px 14px; font-size: 12.5px; }
   /* 四个入口一行放不下，「来信」收成只剩信封图标 */
   .nav a.nav-mail{ gap: 0; padding: 6px 10px; }

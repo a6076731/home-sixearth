@@ -3,6 +3,7 @@
 
   var bg = document.getElementById('bg');
   var dateEl = document.getElementById('date');
+  var clockEl = document.getElementById('clock');
   var captionEl = document.getElementById('caption');
   var posEl = document.getElementById('pos');
   var prevBtn = document.getElementById('prev');
@@ -13,14 +14,40 @@
   var reqToken = 0;
 
   var WEEK = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+  // 北京时间固定 UTC+8，无夏令时；用 UTC 字段反算，不受设备时区设置影响
+  var BJ_OFFSET = 8 * 60 * 60 * 1000;
 
-  function formatDate(raw) {
-    if (!/^\d{8}$/.test(raw || '')) return '—';
-    var y = Number(raw.slice(0, 4));
-    var m = Number(raw.slice(4, 6));
-    var d = Number(raw.slice(6, 8));
-    var week = WEEK[new Date(y, m - 1, d).getDay()];
-    return y + ' 年 ' + m + ' 月 ' + d + ' 日 · ' + week;
+  function pad2(n) {
+    return (n < 10 ? '0' : '') + n;
+  }
+
+  function bjNow(ts) {
+    var d = new Date(ts + BJ_OFFSET);
+    var y = d.getUTCFullYear();
+    var m = d.getUTCMonth() + 1;
+    var day = d.getUTCDate();
+    return {
+      y: y, m: m, d: day,
+      week: WEEK[d.getUTCDay()],
+      hh: pad2(d.getUTCHours()),
+      mm: pad2(d.getUTCMinutes()),
+      ss: pad2(d.getUTCSeconds()),
+      key: '' + y + pad2(m) + pad2(day)
+    };
+  }
+
+  // 大号日期 + 时分秒，按整秒对齐刷新，不累积漂移
+  function tick() {
+    var t = bjNow(Date.now());
+    dateEl.textContent = t.y + ' 年 ' + t.m + ' 月 ' + t.d + ' 日 · ' + t.week;
+    clockEl.textContent = t.hh + ':' + t.mm + ':' + t.ss;
+    setTimeout(tick, 1000 - (Date.now() % 1000));
+  }
+
+  // 壁纸自带的日期（Bing 的 enddate，形如 20261025）
+  function formatWallpaperDate(raw) {
+    if (!/^\d{8}$/.test(raw || '')) return '';
+    return Number(raw.slice(4, 6)) + ' 月 ' + Number(raw.slice(6, 8)) + ' 日';
   }
 
   function setBusy(busy) {
@@ -53,8 +80,13 @@
     index = Math.min(Math.max(i, 0), list.length - 1);
     var item = list[index];
 
-    dateEl.textContent = formatDate(item.date);
-    captionEl.textContent = [item.title, item.copyright].filter(Boolean).join(' — ');
+    // 大号日期固定显示北京时间；翻到早几天的壁纸时，把那张壁纸的日期标在说明前面
+    var text = [item.title, item.copyright].filter(Boolean).join(' — ');
+    if (index > 0) {
+      var d = formatWallpaperDate(item.date);
+      if (d) text = d + ' · ' + text;
+    }
+    captionEl.textContent = text;
     posEl.textContent = (index + 1) + ' / ' + list.length;
 
     prevBtn.disabled = index >= list.length - 1;
@@ -64,7 +96,6 @@
   }
 
   function fail(message) {
-    dateEl.textContent = '暂时取不到壁纸';
     captionEl.textContent = message || '过一会儿刷新页面再试一次。';
     posEl.textContent = '';
     prevBtn.disabled = true;
@@ -103,5 +134,6 @@
     else if (e.key === 'ArrowRight') { step(-1); }
   });
 
+  tick();
   load();
 })();
