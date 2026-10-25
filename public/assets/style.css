@@ -78,12 +78,13 @@ body{
   white-space: nowrap;
 }
 
-/* 品牌标：黑色锁定组合在壁纸上用 invert 反白，一张文件通吃明暗 */
+/* 品牌标：像素地球是彩色的，不能再整体 invert，直接换用白字版文件 */
 .brand img{
   display: block;
-  height: 26px;
+  height: 32px;
   width: auto;
-  filter: invert(1) drop-shadow(0 1px 10px rgba(0,0,0,.45));
+  image-rendering: pixelated;
+  filter: drop-shadow(0 1px 10px rgba(0,0,0,.45));
 }
 
 .brand .brand-mark{ display: none; }
@@ -229,7 +230,7 @@ body{
   .nav-mail-label{ display: none; }
   /* 锁定组合太宽，窄屏只留记号 */
   .brand .brand-lockup{ display: none; }
-  .brand .brand-mark{ display: block; height: 22px; }
+  .brand .brand-mark{ display: block; height: 28px; }
 }
 
 @media (prefers-reduced-motion: reduce){
